@@ -9,10 +9,15 @@ import br.edu.utfpr.td.tsi.web.scraper.raspagem.utils.Navegador;
 
 @Component
 public abstract class AbstractRaspador<T> implements Raspador<T> {
-    protected final Navegador navegador = new Navegador();
+    private final Navegador navegador = new Navegador();
     
     @Override
 	public Document irPara(String url, Duration tempoEspera){
     	return navegador.recuperarPagina(url, tempoEspera);
+    }
+    
+    @Override
+    public void fecharWebDriver() {
+    	navegador.fecharDriver();
     }
 }

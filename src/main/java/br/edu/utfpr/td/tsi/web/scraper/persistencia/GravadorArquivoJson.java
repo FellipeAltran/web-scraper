@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
- br.edu.utfpr.tsi.web.scraper.RaspadorHtml;
 
 
 @Component
