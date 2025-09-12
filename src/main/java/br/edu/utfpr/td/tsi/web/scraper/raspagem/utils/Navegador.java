@@ -4,46 +4,44 @@ import java.time.Duration;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 /*
  * Classe Navegador serve para controlar a navegação do webdriver
  */
 
 public class Navegador {
-    private WebDriver driver = new ChromeDriver();
-    private boolean driverEstaAberto = false;
+	private WebDriver driver;
 
-    /*
-     * Vai navegar para a página que passar na url
-     * tempoAguardar serve para determinar o tempo que deve aguardar após a página abrir
-     * se o webdriver ainda não abriu uma janela do navegador, abre uma nova janela, após isso vai navegar utilizando a mesma janela
-     */
-    public Document recuperarPagina(String url, Duration tempoAguardar) {
-        if (!driverEstaAberto) {
-            driverEstaAberto = true;
-            driver.get(url);
-        } else {
-            driver.navigate().to(url);
-        }
-        
-        if (tempoAguardar != null) {
-            try {
-                Thread.sleep(tempoAguardar);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-        }
-        
+	/*
+	 * Vai navegar para a página que passar na url tempoAguardar serve para
+	 * determinar o tempo que deve aguardar após a página abrir se o webdriver ainda
+	 * não abriu uma janela do navegador, abre uma nova janela, após isso vai
+	 * navegar utilizando a mesma janela
+	 */
+	public Document recuperarPagina(String url, Duration tempoAguardar) {
+		if (driver == null) {
+			driver = new ChromeDriver();
+		}
+
+		if (tempoAguardar != null) {
+			driver.manage().timeouts().implicitlyWait(tempoAguardar);
+		}
+
 		String html = driver.getPageSource();
 		return Jsoup.parse(html);
-    }
-    
-    /*
-     * Finaliza o webdriver (fecha a janela do navegador)
-     */
-    public void fecharDriver() {
-    	driver.quit();
-    }
+	}
+
+	/*
+	 * Finaliza o webdriver (fecha a janela do navegador)
+	 */
+	public void fecharDriver() {
+		if (driver != null)
+			driver.quit();
+	}
 }
