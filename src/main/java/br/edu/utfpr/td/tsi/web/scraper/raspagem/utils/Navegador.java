@@ -4,12 +4,8 @@ import java.time.Duration;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 /*
  * Classe Navegador serve para controlar a navegação do webdriver
@@ -30,7 +26,6 @@ public class Navegador {
 		} 
 		
 		driver.navigate().to(url);
-
 
 		if (tempoAguardar != null) {
 			driver.manage().timeouts().implicitlyWait(tempoAguardar);
