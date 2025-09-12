@@ -14,8 +14,8 @@ public abstract class AbstractRaspador<T> implements Raspador<T> {
     private final Navegador navegador = new Navegador();
     protected final Logger logger;
 
-    protected AbstractRaspador(Class<?> classe) {
-        this.logger = LoggerFactory.getLogger(classe);
+    protected AbstractRaspador() {
+        this.logger = LoggerFactory.getLogger(this.getClass());
     }
     
     @Override
