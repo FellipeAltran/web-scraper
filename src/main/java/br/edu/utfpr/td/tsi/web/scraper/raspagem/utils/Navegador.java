@@ -27,7 +27,10 @@ public class Navegador {
 	public Document recuperarPagina(String url, Duration tempoAguardar) {
 		if (driver == null) {
 			driver = new ChromeDriver();
-		}
+		} 
+		
+		driver.navigate().to(url);
+
 
 		if (tempoAguardar != null) {
 			driver.manage().timeouts().implicitlyWait(tempoAguardar);
