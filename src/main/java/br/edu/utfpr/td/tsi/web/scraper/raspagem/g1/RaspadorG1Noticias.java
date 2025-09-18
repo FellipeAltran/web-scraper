@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 
@@ -27,14 +28,38 @@ public class RaspadorG1Noticias extends AbstractRaspador<Noticia> {
 
 		for (var i = 0; i < listaDeNoticias.size(); i++) {
 			Noticia noticia = new Noticia();
-			Elements tituloNoticia = listaDeNoticias.get(i).select(".feed-post-body-title");
-			String manchete = tituloNoticia.text();
-			String linkNoticia = tituloNoticia.attr("href");
+			List<Noticia> relacionadas = new ArrayList<Noticia>();
+			
+			Element n = listaDeNoticias.get(i);
+			
+			Elements corpoTitulo = n.select(".feed-post-body-title");
+			String manchete = corpoTitulo.text();
+			String linkNoticia = corpoTitulo.attr("href");
+			
+			String tempoPublicada = n.select(".feed-post-datetime").first().ownText();
+			String categoria = n.select(".feed-post-metadata-section").text();
 
+			Elements listaRelacionadas = listaDeNoticias.get(i).select(".bstn-relatedtext");
+			
+			for(var j = 0; j < listaRelacionadas.size(); j++) {
+				Element noticiaRelacionada = listaRelacionadas.get(j);
+				
+				Noticia relacionada = new Noticia();
+				String titulo = noticiaRelacionada.text();
+				String linkRelacionado = noticiaRelacionada.attr("href");
+				
+				relacionada.setManchete(titulo);
+				relacionada.setLinkNoticia(linkRelacionado);
+				relacionadas.add(relacionada);
+			}
+			
+			
 			noticia.setLinkNoticia(linkNoticia);
 			noticia.setManchete(manchete);
-
-			System.out.print(manchete + linkNoticia + "\n");
+			noticia.setTempoPublicada(tempoPublicada);
+			noticia.setCategoria(categoria);
+			noticia.setRelacionadas(relacionadas);
+			
 			noticias.add(noticia);
 		}
 
