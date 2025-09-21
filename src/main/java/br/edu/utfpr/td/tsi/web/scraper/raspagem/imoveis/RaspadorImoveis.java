@@ -1,4 +1,4 @@
-package br.edu.utfpr.td.tsi.web.scraper.raspagem.pichau;
+package br.edu.utfpr.td.tsi.web.scraper.raspagem.imoveis;
 
 import java.time.Duration;
 import java.util.ArrayList;
