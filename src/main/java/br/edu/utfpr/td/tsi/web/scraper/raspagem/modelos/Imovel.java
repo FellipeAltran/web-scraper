@@ -6,9 +6,9 @@ public class Imovel {
     private String finalidade;
     private String bairro;
     private String cidade;
-    private int referencia;
-    private int numeroBanheiros;
-    private int numeroVagasGaragem;
+    private Integer referencia;
+    private Integer numeroBanheiros;
+    private Integer numeroVagasGaragem;
     private String areaTerreno;
     private String areaConstruida;
     private String areaUtil;
@@ -49,27 +49,27 @@ public class Imovel {
         this.cidade = cidade;
     }
 
-    public int getReferencia() {
+    public Integer getReferencia() {
         return referencia;
     }
 
-    public void setReferencia(int referencia) {
+    public void setReferencia(Integer referencia) {
         this.referencia = referencia;
     }
 
-    public int getNumeroBanheiros() {
+    public Integer getNumeroBanheiros() {
         return numeroBanheiros;
     }
 
-    public void setNumeroBanheiros(int numeroBanheiros) {
+    public void setNumeroBanheiros(Integer numeroBanheiros) {
         this.numeroBanheiros = numeroBanheiros;
     }
 
-    public int getNumeroVagasGaragem() {
+    public Integer getNumeroVagasGaragem() {
         return numeroVagasGaragem;
     }
 
-    public void setNumeroVagasGaragem(int numeroVagasGaragem) {
+    public void setNumeroVagasGaragem(Integer numeroVagasGaragem) {
         this.numeroVagasGaragem = numeroVagasGaragem;
     }
 
