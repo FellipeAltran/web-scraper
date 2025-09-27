@@ -12,9 +12,12 @@ import br.edu.utfpr.td.tsi.web.scraper.etl.ExtratorListaItemsArquivosJson;
 import br.edu.utfpr.td.tsi.web.scraper.etl.Job;
 import br.edu.utfpr.td.tsi.web.scraper.etl.Transformador;
 import br.edu.utfpr.td.tsi.web.scraper.persistencia.GravadorArquivoJson;
+import br.edu.utfpr.td.tsi.web.scraper.raspagem.g1.NoticiasTransformador;
+import br.edu.utfpr.td.tsi.web.scraper.raspagem.g1.RaspadorG1Noticias;
 import br.edu.utfpr.td.tsi.web.scraper.raspagem.imoveis.ImovelTransformador;
 import br.edu.utfpr.td.tsi.web.scraper.raspagem.imoveis.RaspadorImoveis;
 import br.edu.utfpr.td.tsi.web.scraper.raspagem.modelos.Imovel;
+import br.edu.utfpr.td.tsi.web.scraper.raspagem.modelos.Noticia;
 import jakarta.annotation.PostConstruct;
 
 @SpringBootApplication
@@ -31,12 +34,31 @@ public class Main {
 
 	public static void main(String[] args) {
 		SpringApplication.run(Main.class, args);
-
 	}
 
 	@PostConstruct
 	public void raspagemJsoup() {
-		configImoveis();
+		 configImoveis();
+		 // configNoticias();
+	}
+	
+	public void configNoticias() {
+		List<Noticia> noticias = new RaspadorG1Noticias().raspar();
+		gravadorArquivoJson.gravarArquivo(noticias, "noticias");
+
+		ExtratorListaItemsArquivosJson<Noticia> extrator = new ExtratorListaItemsArquivosJson<Noticia>();
+		extrator.setListType(Noticia.class);
+		extrator.setInput(input);
+
+		Transformador<Noticia, Noticia> transformador = new NoticiasTransformador();
+		CarregadorArquivosJson<Noticia> carregador = new CarregadorArquivosJson<Noticia>();
+		carregador.setOutput(output);
+
+		Job<Noticia, Noticia> job = new Job<Noticia, Noticia>();
+		job.setExtrator(extrator);
+		job.setTransformador(transformador);
+		job.setCarregador(carregador);
+		job.executar();
 	}
 
 	public void configImoveis() {
