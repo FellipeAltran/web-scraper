@@ -26,12 +26,19 @@ public class Main {
 	@Autowired
 	private GravadorArquivoJson gravadorArquivoJson;
 
-	@Value("${file.output}")
-	private String output;
+	@Value("${file.outputNoticias}")
+	private String outputNoticias;
 
-	@Value("${file.input}")
-	private String input;
+	@Value("${file.inputNoticias}")
+	private String inputNoticias;
 
+	@Value("${file.outputImoveis}")
+	private String outputImoveis;
+
+	@Value("${file.inputImoveis}")
+	private String inputImoveis;
+
+	
 	public static void main(String[] args) {
 		SpringApplication.run(Main.class, args);
 	}
@@ -39,20 +46,20 @@ public class Main {
 	@PostConstruct
 	public void raspagemJsoup() {
 		 configImoveis();
-		 // configNoticias();
+		 configNoticias();
 	}
 	
 	public void configNoticias() {
 		List<Noticia> noticias = new RaspadorG1Noticias().raspar();
-		gravadorArquivoJson.gravarArquivo(noticias, "noticias");
+		gravadorArquivoJson.gravarArquivo(noticias, inputNoticias);
 
 		ExtratorListaItemsArquivosJson<Noticia> extrator = new ExtratorListaItemsArquivosJson<Noticia>();
 		extrator.setListType(Noticia.class);
-		extrator.setInput(input);
+		extrator.setInput(inputNoticias);
 
 		Transformador<Noticia, Noticia> transformador = new NoticiasTransformador();
 		CarregadorArquivosJson<Noticia> carregador = new CarregadorArquivosJson<Noticia>();
-		carregador.setOutput(output);
+		carregador.setOutput(outputNoticias);
 
 		Job<Noticia, Noticia> job = new Job<Noticia, Noticia>();
 		job.setExtrator(extrator);
@@ -67,11 +74,11 @@ public class Main {
 
 		ExtratorListaItemsArquivosJson<Imovel> extrator = new ExtratorListaItemsArquivosJson<Imovel>();
 		extrator.setListType(Imovel.class);
-		extrator.setInput(input);
+		extrator.setInput(inputImoveis);
 
 		Transformador<Imovel, Imovel> transformador = new ImovelTransformador();
 		CarregadorArquivosJson<Imovel> carregador = new CarregadorArquivosJson<Imovel>();
-		carregador.setOutput(output);
+		carregador.setOutput(outputImoveis);
 
 		Job<Imovel, Imovel> job = new Job<Imovel, Imovel>();
 		job.setExtrator(extrator);
