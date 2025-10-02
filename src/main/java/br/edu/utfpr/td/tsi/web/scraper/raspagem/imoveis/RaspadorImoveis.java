@@ -18,11 +18,10 @@ public class RaspadorImoveis extends AbstractRaspador<Imovel> {
 				Duration.ofSeconds(10));
 		List<Imovel> listaImoveis = new ArrayList<Imovel>();
 		String baseUrl = "https://www.imobiliariaativa.com.br/";
-
+		
 		try {
-			List<Element> imoveisCards = document.select(".card");
-
-			for (Element imovelCard : imoveisCards) {
+			List<Element> imoveis = document.select(".card");
+			for (Element imovelCard : imoveis) {
 				Imovel imovel = new Imovel();
 				String[] localizacao = imovelCard.select(".card-bairro-cidade-texto").text().split("-");
 				imovel.setBairro(localizacao[0].trim());
@@ -30,7 +29,7 @@ public class RaspadorImoveis extends AbstractRaspador<Imovel> {
 				imovel.setValor(imovelCard.select(".card-valores").text().replaceAll("[^\\d, ]", "").trim().split("\\s+")[0]);
 
 				String imovelUrl = baseUrl + imovelCard.select(".carousel .flickity-viewport .flickity-slider a").attr("href");
-				Document imovelDoc = irPara(imovelUrl, Duration.ofSeconds(10));
+				Document imovelDoc = irPara(imovelUrl, Duration.ofSeconds(2));
 
 				imovel.setTitulo(imovelDoc.select(".titulo-imovel").text());
 				imovel.setFinalidade(imovelDoc.select(".tipo-prop strong").text());
