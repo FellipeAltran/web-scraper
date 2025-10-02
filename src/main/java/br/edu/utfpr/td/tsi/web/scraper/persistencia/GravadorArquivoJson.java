@@ -4,9 +4,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.slf4j.event.Level;
 import org.springframework.stereotype.Component;
 
 import com.google.gson.Gson;
@@ -27,7 +24,7 @@ public class GravadorArquivoJson {
 //		logger.atLevel(Level.INFO).setMessage(json).log();
 
 		try {
-			FileWriter writer = new FileWriter(nomeArquivo.trim() + ".json");
+			FileWriter writer = new FileWriter(nomeArquivo);
 			gson.toJson(dadosRaspados, writer);
 			writer.close();
 		} catch (JsonIOException | IOException e) {
