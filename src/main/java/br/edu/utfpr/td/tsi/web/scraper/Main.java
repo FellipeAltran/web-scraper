@@ -43,10 +43,11 @@ public class Main {
 		SpringApplication.run(Main.class, args);
 	}
 
+	
 	@PostConstruct
 	public void raspagemJsoup() {
-		 configImoveis();
 		 configNoticias();
+		 configImoveis();
 	}
 	
 	public void configNoticias() {
@@ -70,7 +71,7 @@ public class Main {
 
 	public void configImoveis() {
 		List<Imovel> imoveis = new RaspadorImoveis().raspar();
-		gravadorArquivoJson.gravarArquivo(imoveis, "imoveis");
+		gravadorArquivoJson.gravarArquivo(imoveis, inputImoveis);
 
 		ExtratorListaItemsArquivosJson<Imovel> extrator = new ExtratorListaItemsArquivosJson<Imovel>();
 		extrator.setListType(Imovel.class);
