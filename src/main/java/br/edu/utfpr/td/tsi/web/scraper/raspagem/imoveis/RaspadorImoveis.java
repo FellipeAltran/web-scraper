@@ -15,7 +15,7 @@ public class RaspadorImoveis extends AbstractRaspador<Imovel> {
 	public List<Imovel> raspar() {
 		Document document = irPara(
 				"https://www.imobiliariaativa.com.br/pesquisa-de-imoveis/?locacao_venda=L&finalidade=&dormitorio=&garagem=&vmi=&vma=&ordem=4",
-				Duration.ofSeconds(10));
+				Duration.ofSeconds(2));
 		List<Imovel> listaImoveis = new ArrayList<Imovel>();
 		String baseUrl = "https://www.imobiliariaativa.com.br/";
 		
