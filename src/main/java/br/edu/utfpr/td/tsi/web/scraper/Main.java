@@ -16,8 +16,11 @@ import br.edu.utfpr.td.tsi.web.scraper.raspagem.g1.NoticiasTransformador;
 import br.edu.utfpr.td.tsi.web.scraper.raspagem.g1.RaspadorG1Noticias;
 import br.edu.utfpr.td.tsi.web.scraper.raspagem.imoveis.ImovelTransformador;
 import br.edu.utfpr.td.tsi.web.scraper.raspagem.imoveis.RaspadorImoveis;
+import br.edu.utfpr.td.tsi.web.scraper.raspagem.restaurantes.RestauranteTransformador;
+import br.edu.utfpr.td.tsi.web.scraper.raspagem.restaurantes.RaspadorMichelinRestaurantes;
 import br.edu.utfpr.td.tsi.web.scraper.raspagem.modelos.Imovel;
 import br.edu.utfpr.td.tsi.web.scraper.raspagem.modelos.Noticia;
+import br.edu.utfpr.td.tsi.web.scraper.raspagem.modelos.Restaurante;
 import jakarta.annotation.PostConstruct;
 
 @SpringBootApplication
@@ -37,6 +40,12 @@ public class Main {
 
 	@Value("${file.inputImoveis}")
 	private String inputImoveis;
+	
+    @Value("${file.outputRestaurantes}") 
+    private String outputRestaurantes;
+    
+    @Value("${file.inputRestaurantes}")  
+    private String inputRestaurantes;
 
 	
 	public static void main(String[] args) {
@@ -48,6 +57,7 @@ public class Main {
 	public void raspagemJsoup() {
 		 configNoticias();
 		 configImoveis();
+		 configRestaurantes();
 	}
 	
 	public void configNoticias() {
@@ -86,5 +96,24 @@ public class Main {
 		job.setTransformador(transformador);
 		job.setCarregador(carregador);
 		job.executar();
+	}
+	
+	public void configRestaurantes() {
+	    List<Restaurante> restaurantes = new RaspadorMichelinRestaurantes().raspar();
+	    gravadorArquivoJson.gravarArquivo(restaurantes, inputRestaurantes);
+
+	    ExtratorListaItemsArquivosJson<Restaurante> extrator = new ExtratorListaItemsArquivosJson<>();
+	    extrator.setListType(Restaurante.class);
+	    extrator.setInput(inputRestaurantes);
+
+	    RestauranteTransformador transformador = new RestauranteTransformador();
+	    CarregadorArquivosJson<Restaurante> carregador = new CarregadorArquivosJson<>();
+	    carregador.setOutput(outputRestaurantes);
+
+	    Job<Restaurante, Restaurante> job = new Job<>();
+	    job.setExtrator(extrator);
+	    job.setTransformador(transformador);
+	    job.setCarregador(carregador);
+	    job.executar();
 	}
 }
