@@ -40,26 +40,34 @@ public class Main {
 
 	@Value("${file.inputImoveis}")
 	private String inputImoveis;
-	
-    @Value("${file.outputRestaurantes}") 
-    private String outputRestaurantes;
-    
-    @Value("${file.inputRestaurantes}")  
-    private String inputRestaurantes;
 
-	
+	@Value("${file.outputRestaurantes}")
+	private String outputRestaurantes;
+
+	@Value("${file.inputRestaurantes}")
+	private String inputRestaurantes;
+
 	public static void main(String[] args) {
 		SpringApplication.run(Main.class, args);
 	}
 
-	
 	@PostConstruct
 	public void raspagemJsoup() {
-		 configNoticias();
-		 configImoveis();
-		 configRestaurantes();
+		Thread t1 = new Thread(() -> {
+			configNoticias();
+		});
+		Thread t2 = new Thread(() -> {
+			configImoveis();
+		});
+		Thread t3 = new Thread(() -> {
+			configRestaurantes();
+		});
+
+		t1.start();
+		t2.start();
+		t3.start();
 	}
-	
+
 	public void configNoticias() {
 		List<Noticia> noticias = new RaspadorG1Noticias().raspar();
 		gravadorArquivoJson.gravarArquivo(noticias, inputNoticias);
@@ -72,7 +80,7 @@ public class Main {
 		CarregadorArquivosJson<Noticia> carregador = new CarregadorArquivosJson<Noticia>();
 		carregador.setOutput(outputNoticias);
 
-		Job<Noticia, Noticia> job = new Job<Noticia, Noticia>();
+		Job<Noticia, Noticia> job = new Job<Noticia, Noticia>(Noticia.class);
 		job.setExtrator(extrator);
 		job.setTransformador(transformador);
 		job.setCarregador(carregador);
@@ -91,29 +99,29 @@ public class Main {
 		CarregadorArquivosJson<Imovel> carregador = new CarregadorArquivosJson<Imovel>();
 		carregador.setOutput(outputImoveis);
 
-		Job<Imovel, Imovel> job = new Job<Imovel, Imovel>();
+		Job<Imovel, Imovel> job = new Job<Imovel, Imovel>(Imovel.class);
 		job.setExtrator(extrator);
 		job.setTransformador(transformador);
 		job.setCarregador(carregador);
 		job.executar();
 	}
-	
+
 	public void configRestaurantes() {
-	    List<Restaurante> restaurantes = new RaspadorMichelinRestaurantes().raspar();
-	    gravadorArquivoJson.gravarArquivo(restaurantes, inputRestaurantes);
+		List<Restaurante> restaurantes = new RaspadorMichelinRestaurantes().raspar();
+		gravadorArquivoJson.gravarArquivo(restaurantes, inputRestaurantes);
 
-	    ExtratorListaItemsArquivosJson<Restaurante> extrator = new ExtratorListaItemsArquivosJson<>();
-	    extrator.setListType(Restaurante.class);
-	    extrator.setInput(inputRestaurantes);
+		ExtratorListaItemsArquivosJson<Restaurante> extrator = new ExtratorListaItemsArquivosJson<>();
+		extrator.setListType(Restaurante.class);
+		extrator.setInput(inputRestaurantes);
 
-	    RestauranteTransformador transformador = new RestauranteTransformador();
-	    CarregadorArquivosJson<Restaurante> carregador = new CarregadorArquivosJson<>();
-	    carregador.setOutput(outputRestaurantes);
+		RestauranteTransformador transformador = new RestauranteTransformador();
+		CarregadorArquivosJson<Restaurante> carregador = new CarregadorArquivosJson<>();
+		carregador.setOutput(outputRestaurantes);
 
-	    Job<Restaurante, Restaurante> job = new Job<>();
-	    job.setExtrator(extrator);
-	    job.setTransformador(transformador);
-	    job.setCarregador(carregador);
-	    job.executar();
+		Job<Restaurante, Restaurante> job = new Job<Restaurante, Restaurante>(Restaurante.class);
+		job.setExtrator(extrator);
+		job.setTransformador(transformador);
+		job.setCarregador(carregador);
+		job.executar();
 	}
 }
