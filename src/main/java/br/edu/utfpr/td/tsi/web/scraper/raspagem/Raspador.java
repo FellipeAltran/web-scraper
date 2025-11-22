@@ -8,4 +8,5 @@ public interface Raspador<T> {
 	public List<T> raspar();
 	public Document irPara(String url, Duration tempoEspera);
 	public void fecharWebDriver();
+	public void iniciarRaspador();
 }

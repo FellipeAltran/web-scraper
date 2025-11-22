@@ -3,15 +3,22 @@ package br.edu.utfpr.td.tsi.web.scraper.raspagem;
 import java.time.Duration;
 
 import org.jsoup.nodes.Document;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import br.edu.utfpr.td.tsi.web.scraper.persistencia.GravadorArquivoJson;
 import br.edu.utfpr.td.tsi.web.scraper.raspagem.utils.Navegador;
 
 @Component
 public abstract class AbstractRaspador<T> implements Raspador<T> {
-    private final Navegador navegador = new Navegador();
+    
+	@Autowired
+	protected GravadorArquivoJson gravadorArquivoJson;
+	
+	private final Navegador navegador = new Navegador();
     protected final Logger logger;
 
     protected AbstractRaspador() {

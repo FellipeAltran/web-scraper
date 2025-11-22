@@ -5,12 +5,46 @@ import java.util.ArrayList;
 import java.util.List;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import br.edu.utfpr.td.tsi.web.scraper.etl.CarregadorArquivosJson;
+import br.edu.utfpr.td.tsi.web.scraper.etl.ExtratorListaItemsArquivosJson;
+import br.edu.utfpr.td.tsi.web.scraper.etl.Job;
+import br.edu.utfpr.td.tsi.web.scraper.etl.Transformador;
 import br.edu.utfpr.td.tsi.web.scraper.raspagem.AbstractRaspador;
 import br.edu.utfpr.td.tsi.web.scraper.raspagem.modelos.Imovel;
+import jakarta.annotation.PostConstruct;
 
 @Component
 public class RaspadorImoveis extends AbstractRaspador<Imovel> {
+	@Value("${file.outputImoveis}")
+	private String outputImoveis;
+
+	@Value("${file.inputImoveis}")
+	private String inputImoveis;
+	
+	@Override
+	@PostConstruct
+	public void iniciarRaspador() {
+		List<Imovel> imoveis = new RaspadorImoveis().raspar();
+		gravadorArquivoJson.gravarArquivo(imoveis, inputImoveis);
+
+		ExtratorListaItemsArquivosJson<Imovel> extrator = new ExtratorListaItemsArquivosJson<Imovel>();
+		extrator.setListType(Imovel.class);
+		extrator.setInput(inputImoveis);
+
+		Transformador<Imovel, Imovel> transformador = new ImovelTransformador();
+		CarregadorArquivosJson<Imovel> carregador = new CarregadorArquivosJson<Imovel>();
+		carregador.setOutput(outputImoveis);
+
+		Job<Imovel, Imovel> job = new Job<Imovel, Imovel>();
+		job.setExtrator(extrator);
+		job.setTransformador(transformador);
+		job.setCarregador(carregador);
+		job.executar();
+	}
+	
 	@Override
 	public List<Imovel> raspar() {
 		Document document = irPara(

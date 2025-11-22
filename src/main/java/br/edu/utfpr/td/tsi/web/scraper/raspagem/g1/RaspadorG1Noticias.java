@@ -7,14 +7,46 @@ import java.util.List;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import br.edu.utfpr.td.tsi.web.scraper.etl.CarregadorArquivosJson;
+import br.edu.utfpr.td.tsi.web.scraper.etl.ExtratorListaItemsArquivosJson;
+import br.edu.utfpr.td.tsi.web.scraper.etl.Job;
+import br.edu.utfpr.td.tsi.web.scraper.etl.Transformador;
 import br.edu.utfpr.td.tsi.web.scraper.raspagem.AbstractRaspador;
 import br.edu.utfpr.td.tsi.web.scraper.raspagem.modelos.Noticia;
+import jakarta.annotation.PostConstruct;
 
 @Component
 public class RaspadorG1Noticias extends AbstractRaspador<Noticia> {
-   
+
+	@Value("${file.outputNoticias}")
+	private String outputNoticias;
+
+	@Value("${file.inputNoticias}")
+	private String inputNoticias;
+
+	@Override
+	@PostConstruct
+	public void iniciarRaspador() {
+		List<Noticia> noticias = new RaspadorG1Noticias().raspar();
+		gravadorArquivoJson.gravarArquivo(noticias, inputNoticias);
+
+		ExtratorListaItemsArquivosJson<Noticia> extrator = new ExtratorListaItemsArquivosJson<Noticia>();
+		extrator.setListType(Noticia.class);
+		extrator.setInput(inputNoticias);
+
+		Transformador<Noticia, Noticia> transformador = new NoticiasTransformador();
+		CarregadorArquivosJson<Noticia> carregador = new CarregadorArquivosJson<Noticia>();
+		carregador.setOutput(outputNoticias);
+
+		Job<Noticia, Noticia> job = new Job<Noticia, Noticia>();
+		job.setExtrator(extrator);
+		job.setTransformador(transformador);
+		job.setCarregador(carregador);
+		job.executar();
+	}
 
 	@Override
 	public List<Noticia> raspar() {
