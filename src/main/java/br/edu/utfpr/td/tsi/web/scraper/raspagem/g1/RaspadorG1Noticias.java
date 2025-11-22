@@ -16,6 +16,7 @@ import br.edu.utfpr.td.tsi.web.scraper.etl.Job;
 import br.edu.utfpr.td.tsi.web.scraper.etl.Transformador;
 import br.edu.utfpr.td.tsi.web.scraper.raspagem.AbstractRaspador;
 import br.edu.utfpr.td.tsi.web.scraper.raspagem.modelos.Noticia;
+import br.edu.utfpr.td.tsi.web.scraper.raspagem.modelos.NoticiaRelacionada;
 import jakarta.annotation.PostConstruct;
 
 @Component
@@ -60,7 +61,7 @@ public class RaspadorG1Noticias extends AbstractRaspador<Noticia> {
 
 		for (var i = 0; i < listaDeNoticias.size(); i++) {
 			Noticia noticia = new Noticia();
-			List<Noticia> relacionadas = new ArrayList<Noticia>();
+			List<NoticiaRelacionada> relacionadas = new ArrayList<NoticiaRelacionada>();
 			
 			Element n = listaDeNoticias.get(i);
 			
@@ -76,7 +77,7 @@ public class RaspadorG1Noticias extends AbstractRaspador<Noticia> {
 			for(var j = 0; j < listaRelacionadas.size(); j++) {
 				Element noticiaRelacionada = listaRelacionadas.get(j);
 				
-				Noticia relacionada = new Noticia();
+				NoticiaRelacionada relacionada = new NoticiaRelacionada();
 				String titulo = noticiaRelacionada.text();
 				String linkRelacionado = noticiaRelacionada.attr("href");
 				
@@ -85,7 +86,7 @@ public class RaspadorG1Noticias extends AbstractRaspador<Noticia> {
 				relacionadas.add(relacionada);
 			}
 			
-			
+			noticia.setId(i);
 			noticia.setLinkNoticia(linkNoticia);
 			noticia.setManchete(manchete);
 			noticia.setTempoPublicada(tempoPublicada);
