@@ -1,13 +1,24 @@
 package br.edu.utfpr.td.tsi.web.scraper.raspagem.modelos;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Noticia {
+	Integer id;
 	String manchete;
 	String linkNoticia;
 	String tempoPublicada;
 	String categoria;
-	List<Noticia> relacionadas;
+	List<NoticiaRelacionada> relacionadas;
+	
+	public Integer getId() {
+		return id;
+	}
+	
+	public void setId(Integer id) {
+		this.id = id;
+	}
 	
 	public void setLinkNoticia(String linkNoticia) {
 		this.linkNoticia = linkNoticia;
@@ -25,11 +36,11 @@ public class Noticia {
 		return manchete;
 	}
 
-	public List<Noticia> getRelacionadas() {
-		return relacionadas;
+	public List<NoticiaRelacionada> getRelacionadas() {
+	    return relacionadas != null ? relacionadas : Collections.emptyList();
 	}
 
-	public void setRelacionadas(List<Noticia> relacionadas) {
+	public void setRelacionadas(List<NoticiaRelacionada> relacionadas) {
 		this.relacionadas = relacionadas;
 	}
 
