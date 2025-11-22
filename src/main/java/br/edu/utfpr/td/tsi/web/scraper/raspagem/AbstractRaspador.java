@@ -9,14 +9,14 @@ import org.springframework.stereotype.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import br.edu.utfpr.td.tsi.web.scraper.persistencia.GravadorArquivoJson;
+import br.edu.utfpr.td.tsi.web.scraper.persistencia.GerenciadorArquivoJson;
 import br.edu.utfpr.td.tsi.web.scraper.raspagem.utils.Navegador;
 
 @Component
 public abstract class AbstractRaspador<T> implements Raspador<T> {
     
 	@Autowired
-	protected GravadorArquivoJson gravadorArquivoJson;
+	protected GerenciadorArquivoJson gerenciadorArquivoJson;
 	
 	private final Navegador navegador = new Navegador();
     protected final Logger logger;

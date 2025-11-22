@@ -31,7 +31,7 @@ public class RaspadorG1Noticias extends AbstractRaspador<Noticia> {
 	@PostConstruct
 	public void iniciarRaspador() {
 		List<Noticia> noticias = new RaspadorG1Noticias().raspar();
-		gravadorArquivoJson.gravarArquivo(noticias, inputNoticias);
+		gerenciadorArquivoJson.gravarArquivo(noticias, inputNoticias);
 
 		ExtratorListaItemsArquivosJson<Noticia> extrator = new ExtratorListaItemsArquivosJson<Noticia>();
 		extrator.setListType(Noticia.class);

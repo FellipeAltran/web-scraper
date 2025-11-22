@@ -34,7 +34,7 @@ public class RaspadorMichelinRestaurantes extends AbstractRaspador<Restaurante> 
 	@PostConstruct
 	public void iniciarRaspador() {
 		List<Restaurante> restaurantes = new RaspadorMichelinRestaurantes().raspar();
-		gravadorArquivoJson.gravarArquivo(restaurantes, inputRestaurantes);
+		gerenciadorArquivoJson.gravarArquivo(restaurantes, inputRestaurantes);
 
 		ExtratorListaItemsArquivosJson<Restaurante> extrator = new ExtratorListaItemsArquivosJson<>();
 		extrator.setListType(Restaurante.class);

@@ -28,7 +28,7 @@ public class RaspadorImoveis extends AbstractRaspador<Imovel> {
 	@PostConstruct
 	public void iniciarRaspador() {
 		List<Imovel> imoveis = new RaspadorImoveis().raspar();
-		gravadorArquivoJson.gravarArquivo(imoveis, inputImoveis);
+		gerenciadorArquivoJson.gravarArquivo(imoveis, inputImoveis);
 
 		ExtratorListaItemsArquivosJson<Imovel> extrator = new ExtratorListaItemsArquivosJson<Imovel>();
 		extrator.setListType(Imovel.class);
