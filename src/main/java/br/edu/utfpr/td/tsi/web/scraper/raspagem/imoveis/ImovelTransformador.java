@@ -52,8 +52,7 @@ public class ImovelTransformador extends Transformador<Imovel, Imovel>{
         }
         try {
             BigDecimal areaNumerica = new BigDecimal(area.trim().replace(",", "."));
-            NumberFormat formatadorNumero = NumberFormat.getNumberInstance(Locale.of("pt", "BR"));
-            return formatadorNumero.format(areaNumerica) + " m²";
+            return areaNumerica + " m²";
         } catch (NumberFormatException e) {
             return area;
         }
@@ -65,8 +64,7 @@ public class ImovelTransformador extends Transformador<Imovel, Imovel>{
         }
         try {
             BigDecimal valorNumerico = new BigDecimal(valor.trim().replace(",", "."));
-            NumberFormat formatadorMoeda = NumberFormat.getCurrencyInstance(Locale.of("pt", "BR"));
-            return formatadorMoeda.format(valorNumerico);
+            return valorNumerico.toString();
         } catch (NumberFormatException e) {
             return valor;
         }
