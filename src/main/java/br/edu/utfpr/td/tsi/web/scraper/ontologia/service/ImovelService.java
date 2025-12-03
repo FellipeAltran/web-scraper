@@ -1,7 +1,6 @@
 package br.edu.utfpr.td.tsi.web.scraper.ontologia.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,41 +66,32 @@ public class ImovelService {
 	    context.put("@context", "https://schema.org");
 	    context.put("@type", "Offer");
 	    
-	    // Identificador único da oferta na sua API
 	    context.put("@id", baseUrl + "/imoveis/" + imovel.getId());
 
-	    // 2. Dados da Oferta (Preço e Tipo de Negócio)
 	    context.put("priceCurrency", "BRL");
 	    context.put("price", limparValorNumerico(imovel.getValor())); 
 	    
-	    // Define semanticamente se é Venda ou Aluguel
-	    // Usa o vocabulário GoodRelations integrado ao Schema.org
 	    if (imovel.getFinalidade() != null && imovel.getFinalidade().toLowerCase().contains("venda")) {
 	        context.put("businessFunction", "http://purl.org/goodrelations/v1#Sell");
 	    } else {
 	        context.put("businessFunction", "http://purl.org/goodrelations/v1#LeaseOut");
 	    }
 
-	    // 3. Objeto Ofertado (A Casa)
 	    Map<String, Object> house = new LinkedHashMap<>();
 	    house.put("@type", "House");
 	    house.put("name", imovel.getTitulo());
 	    house.put("numberOfBathroomsTotal", imovel.getNumeroBanheiros());
 	    
-	    // Descrição textual
 	    house.put("description", "Imóvel localizado em " + imovel.getCidade() + 
 	                             " com " + imovel.getNumeroVagasGaragem() + " vagas de garagem.");
 
-	    // 4. Endereço (Semanticamente estruturado)
 	    Map<String, Object> address = new LinkedHashMap<>();
 	    address.put("@type", "PostalAddress");
 	    address.put("addressLocality", imovel.getCidade());
-	    address.put("addressRegion", "PR"); // Assumindo PR pelo contexto da UTFPR, ou extraia se tiver
+	    address.put("addressRegion", "PR");
 	    address.put("streetAddress", imovel.getBairro());
 	    house.put("address", address);
 
-	    // 5. Área (Transformando String em QuantitativeValue)
-	    // Prioriza Area Útil, senão tenta Construída, senão Terreno
 	    String areaTexto = imovel.getAreaUtil();
 	    if (areaTexto == null || areaTexto.isEmpty()) areaTexto = imovel.getAreaConstruida();
 	    if (areaTexto == null || areaTexto.isEmpty()) areaTexto = imovel.getAreaTerreno();
@@ -110,11 +100,11 @@ public class ImovelService {
 	        Map<String, Object> floorSize = new LinkedHashMap<>();
 	        floorSize.put("@type", "QuantitativeValue");
 	        floorSize.put("value", limparValorNumerico(areaTexto));
-	        floorSize.put("unitCode", "SQM"); // Código internacional para Metros Quadrados
+	        floorSize.put("unitCode", "SQM");
 	        house.put("floorSize", floorSize);
 	    }
 
-	    // Adiciona a casa dentro da oferta
+
 	    context.put("itemOffered", house);
 
 	    return context;
@@ -122,10 +112,8 @@ public class ImovelService {
 	
 	private String limparValorNumerico(String valorBruto) {
 	    if (valorBruto == null) return "0";
-	    // Remove tudo que não for dígito ou vírgula/ponto
+
 	    String limpo = valorBruto.replaceAll("[^0-9,.]", "");
-	    // Substitui vírgula por ponto para padrão JSON se necessário, 
-	    // mas schema aceita Text. Para garantir numérico, ideal tratar formatação brasileira.
 	    return limpo.replace(",", ".");
 	}
 	
