@@ -2,106 +2,119 @@ package br.edu.utfpr.td.tsi.web.scraper.raspagem.modelos;
 
 public class Imovel {
 
-    private String titulo;
-    private String finalidade;
-    private String bairro;
-    private String cidade;
-    private Integer referencia;
-    private Integer numeroBanheiros;
-    private Integer numeroVagasGaragem;
-    private String areaTerreno;
-    private String areaConstruida;
-    private String areaUtil;
-    private String valor;
+	private Integer id;
+	private String titulo;
+	private String finalidade;
+	private String bairro;
+	private String cidade;
+	private Integer referencia;
+	private Integer numeroBanheiros;
+	private Integer numeroVagasGaragem;
+	private String areaTerreno;
+	private String areaConstruida;
+	private String areaUtil;
+	private String valor;
 
-    public Imovel() {
-    }
+	public Imovel() {
+	}
 
-    public String getTitulo() {
-        return titulo;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public String getFinalidade() {
-        return finalidade;
-    }
+	public void setId(String titulo) {
+		this.titulo = titulo;
+	}
 
-    public void setFinalidade(String finalidade) {
-        this.finalidade = finalidade;
-    }
+	public String getTitulo() {
+		return titulo;
+	}
 
-    public String getBairro() {
-        return bairro;
-    }
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
+	}
 
-    public void setBairro(String bairro) {
-        this.bairro = bairro;
-    }
+	public String getFinalidade() {
+		return finalidade;
+	}
 
-    public String getCidade() {
-        return cidade;
-    }
+	public void setFinalidade(String finalidade) {
+		this.finalidade = finalidade;
+	}
 
-    public void setCidade(String cidade) {
-        this.cidade = cidade;
-    }
+	public String getBairro() {
+		return bairro;
+	}
 
-    public Integer getReferencia() {
-        return referencia;
-    }
+	public void setBairro(String bairro) {
+		this.bairro = bairro;
+	}
 
-    public void setReferencia(Integer referencia) {
-        this.referencia = referencia;
-    }
+	public String getCidade() {
+		return cidade;
+	}
 
-    public Integer getNumeroBanheiros() {
-        return numeroBanheiros;
-    }
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
+	}
 
-    public void setNumeroBanheiros(Integer numeroBanheiros) {
-        this.numeroBanheiros = numeroBanheiros;
-    }
+	public Integer getReferencia() {
+		return referencia;
+	}
 
-    public Integer getNumeroVagasGaragem() {
-        return numeroVagasGaragem;
-    }
+	public void setReferencia(Integer referencia) {
+		this.referencia = referencia;
+	}
 
-    public void setNumeroVagasGaragem(Integer numeroVagasGaragem) {
-        this.numeroVagasGaragem = numeroVagasGaragem;
-    }
+	public Integer getNumeroBanheiros() {
+		return numeroBanheiros;
+	}
 
-    public String getAreaTerreno() {
-        return areaTerreno;
-    }
+	public void setNumeroBanheiros(Integer numeroBanheiros) {
+		this.numeroBanheiros = numeroBanheiros;
+	}
 
-    public void setAreaTerreno(String areaTerreno) {
-        this.areaTerreno = areaTerreno;
-    }
+	public Integer getNumeroVagasGaragem() {
+		return numeroVagasGaragem;
+	}
 
-    public String getAreaConstruida() {
-        return areaConstruida;
-    }
+	public void setNumeroVagasGaragem(Integer numeroVagasGaragem) {
+		this.numeroVagasGaragem = numeroVagasGaragem;
+	}
 
-    public void setAreaConstruida(String areaConstruida) {
-        this.areaConstruida = areaConstruida;
-    }
+	public String getAreaTerreno() {
+		return areaTerreno;
+	}
 
-    public String getAreaUtil() {
-        return areaUtil;
-    }
+	public void setAreaTerreno(String areaTerreno) {
+		this.areaTerreno = areaTerreno;
+	}
 
-    public void setAreaUtil(String areaUtil) {
-        this.areaUtil = areaUtil;
-    }
+	public String getAreaConstruida() {
+		return areaConstruida;
+	}
 
-    public String getValor() {
-        return valor;
-    }
+	public void setAreaConstruida(String areaConstruida) {
+		this.areaConstruida = areaConstruida;
+	}
 
-    public void setValor(String valor) {
-        this.valor = valor;
-    }
+	public String getAreaUtil() {
+		return areaUtil;
+	}
+
+	public void setAreaUtil(String areaUtil) {
+		this.areaUtil = areaUtil;
+	}
+
+	public String getValor() {
+		return valor;
+	}
+
+	public void setValor(String valor) {
+		this.valor = valor;
+	}
 }
