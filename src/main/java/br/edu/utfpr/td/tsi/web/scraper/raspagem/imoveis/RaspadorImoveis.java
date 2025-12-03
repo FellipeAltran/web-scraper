@@ -55,14 +55,17 @@ public class RaspadorImoveis extends AbstractRaspador<Imovel> {
 		
 		try {
 			List<Element> imoveis = document.select(".card");
-			for (Element imovelCard : imoveis) {
+			for (var i = 0; i < imoveis.size(); i++) {
 				Imovel imovel = new Imovel();
-				String[] localizacao = imovelCard.select(".card-bairro-cidade-texto").text().split("-");
+				
+				imovel.setId(i);
+				
+				String[] localizacao = imoveis.get(i).select(".card-bairro-cidade-texto").text().split("-");
 				imovel.setBairro(localizacao[0].trim());
 				imovel.setCidade(localizacao[1].trim());
-				imovel.setValor(imovelCard.select(".card-valores").text().replaceAll("[^\\d, ]", "").trim().split("\\s+")[0]);
+				imovel.setValor(imoveis.get(i).select(".card-valores").text().replaceAll("[^\\d, ]", "").trim().split("\\s+")[0]);
 
-				String imovelUrl = baseUrl + imovelCard.select(".carousel .flickity-viewport .flickity-slider a").attr("href");
+				String imovelUrl = baseUrl + imoveis.get(i).select(".carousel .flickity-viewport .flickity-slider a").attr("href");
 				Document imovelDoc = irPara(imovelUrl, Duration.ofSeconds(2));
 
 				imovel.setTitulo(imovelDoc.select(".titulo-imovel").text());
