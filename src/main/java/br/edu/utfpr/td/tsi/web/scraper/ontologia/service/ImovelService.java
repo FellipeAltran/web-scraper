@@ -71,11 +71,7 @@ public class ImovelService {
 	    context.put("priceCurrency", "BRL");
 	    context.put("price", limparValorNumerico(imovel.getValor())); 
 	    
-	    if (imovel.getFinalidade() != null && imovel.getFinalidade().toLowerCase().contains("venda")) {
-	        context.put("businessFunction", "http://purl.org/goodrelations/v1#Sell");
-	    } else {
-	        context.put("businessFunction", "http://purl.org/goodrelations/v1#LeaseOut");
-	    }
+	    context.put("businessFunction", "http://purl.org/goodrelations/v1#LeaseOut");
 
 	    Map<String, Object> house = new LinkedHashMap<>();
 	    house.put("@type", "House");
