@@ -112,6 +112,7 @@ public class RaspadorMichelinRestaurantes extends AbstractRaspador<Restaurante> 
 
 				if (nome != null && !nome.isEmpty()) {
 					Restaurante r = new Restaurante();
+					r.setId(count); 
 					r.setNome(nome);
 					r.setEndereco(endereco);
 					r.setEstrelas(estrelas);
